@@ -5,8 +5,16 @@
       "destination": "https://id.welib.org/"
     },
     {
-      "source": "/(.*)",
-      "destination": "https://id.welib.org/$1"
+      "source": "/md5/:path*",
+      "destination": "https://id.welib.org/md5/:path*"
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "https://id.welib.org/assets/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://id.welib.org/:path*"
     }
   ]
 }
