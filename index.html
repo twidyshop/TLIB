@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,66 +7,109 @@
     <title>TLIBRARY ID</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden; 
-            background-color: #f8fafc;
-        }
+        body, html { margin: 0; padding: 0; overflow: hidden; height: 100%; width: 100%; }
     </style>
 </head>
-<body class="flex flex-col h-screen">
+<body class="h-screen w-full flex flex-col bg-gray-100">
 
-    <!-- Header TLIBRARY ID -->
-    <header class="bg-[#1e293b] text-white flex justify-between items-center px-4 py-3 shadow-md z-10 shrink-0 h-[60px]">
+    <header class="h-16 bg-slate-800 text-white flex-none flex items-center justify-between px-4 sm:px-6 shadow-md z-20 relative">
         <div class="flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
-            </svg>
-            <h1 class="text-xl font-bold tracking-wide">TLIBRARY <span class="text-indigo-400">ID</span></h1>
+            <span class="text-xl sm:text-2xl">📖</span>
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide">TLIBRARY <span class="text-indigo-400">ID</span></h1>
         </div>
-        <button id="installBtn" class="hidden bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold py-1.5 px-4 rounded-full transition-colors shadow-sm">
+        
+        <button id="installBtn" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-1.5 px-4 rounded-full shadow-lg transition-all transform hover:scale-105 text-sm">
             Instal Aplikasi
         </button>
     </header>
 
-    <!-- Kontainer Iframe -->
-    <main class="flex-1 w-full relative overflow-hidden bg-white">
-        <!-- Menggunakan URL asli secara langsung agar tidak diblokir anti-bot -->
+    <main class="flex-1 relative overflow-hidden bg-white w-full">
+        <!-- 
+          Trik CSS Cropping: 
+          Iframe ditarik ke atas (top: -85px) untuk menyembunyikan header asli.
+          Tinggi ditambah (calc(100% + 85px)) agar bagian bawah tidak terpotong.
+          Catatan: Atribut sandbox DIHAPUS agar semua fungsi internal dan unduhan berfungsi normal.
+        -->
         <iframe 
             src="https://id.welib.org" 
-            class="w-full absolute left-0" 
+            class="absolute left-0 w-full"
             style="top: -85px; height: calc(100% + 85px); border: none;"
-            title="TLibrary Digital">
+            title="TLIBRARY Content"
+            allowfullscreen>
         </iframe>
     </main>
 
-    <!-- Script PWA & Tombol Instal -->
     <script>
-        const manifestData = {
-            name: "TLIBRARY ID",
-            short_name: "TLIBRARY",
-            start_url: ".",
-            display: "standalone",
-            background_color: "#1e293b",
-            theme_color: "#1e293b",
-            icons: [{
-                src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231e293b"/><text x="50" y="65" font-family="Arial" font-size="40" font-weight="bold" fill="white" text-anchor="middle">TL</text></svg>',
-                sizes: "512x512",
-                type: "image/svg+xml"
+        // 1. DYNAMIC WEB APP MANIFEST
+        const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'><rect width='100%' height='100%' fill='#1e293b'/><text x='50%' y='50%' font-size='48' text-anchor='middle' fill='white' dy='.3em' font-family='sans-serif'>TL</text></svg>`;
+        const iconDataUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(iconSvg);
+
+        const manifest = {
+            "name": "TLIBRARY ID",
+            "short_name": "TLibrary",
+            "start_url": window.location.href,
+            "display": "standalone",
+            "background_color": "#ffffff",
+            "theme_color": "#1e293b",
+            "icons": [{
+                "src": iconDataUri,
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
             }]
         };
-        const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifestData)], { type: 'application/json' }));
-        const link = document.createElement('link'); link.rel = 'manifest'; link.href = manifestUrl; document.head.appendChild(link);
+
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        const linkManifest = document.createElement('link');
+        linkManifest.rel = 'manifest';
+        linkManifest.href = manifestUrl;
+        document.head.appendChild(linkManifest);
+
+        // 2. DYNAMIC SERVICE WORKER
+        const swCode = `
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+            self.addEventListener('fetch', (e) => {
+                e.respondWith(fetch(e.request).catch(() => new Response('Offline.')));
+            });
+        `;
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install', (e) => e.waitUntil(self.skipWaiting())); self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim())); self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`], { type: 'application/javascript' }))).catch(console.error);
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            const swUrl = URL.createObjectURL(swBlob);
+            
+            navigator.serviceWorker.register(swUrl)
+                .then(() => console.log('ServiceWorker registered'))
+                .catch(err => console.log('SW fail:', err));
         }
 
-        let deferredPrompt; const installBtn = document.getElementById('installBtn');
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.classList.remove('hidden'); });
-        installBtn.addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') installBtn.classList.add('hidden'); deferredPrompt = null; } });
+        // 3. PWA INSTALL PROMPT LOGIC
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBtn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.add('hidden');
+            deferredPrompt = null;
+        });
     </script>
 </body>
 </html>
+```
