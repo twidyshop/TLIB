@@ -17,6 +17,7 @@
 </head>
 <body class="flex flex-col h-screen">
 
+    <!-- Header TLIBRARY ID -->
     <header class="bg-[#1e293b] text-white flex justify-between items-center px-4 py-3 shadow-md z-10 shrink-0 h-[60px]">
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
@@ -29,16 +30,18 @@
         </button>
     </header>
 
+    <!-- Kontainer Iframe -->
     <main class="flex-1 w-full relative overflow-hidden bg-white">
+        <!-- Menggunakan URL asli secara langsung agar tidak diblokir anti-bot -->
         <iframe 
-            id="welibIframe"
-            src="/proxy-home" 
+            src="https://id.welib.org" 
             class="w-full absolute left-0" 
             style="top: -85px; height: calc(100% + 85px); border: none;"
             title="TLibrary Digital">
         </iframe>
     </main>
 
+    <!-- Script PWA & Tombol Instal -->
     <script>
         const manifestData = {
             name: "TLIBRARY ID",
@@ -63,26 +66,6 @@
         let deferredPrompt; const installBtn = document.getElementById('installBtn');
         window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.classList.remove('hidden'); });
         installBtn.addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') installBtn.classList.add('hidden'); deferredPrompt = null; } });
-    </script>
-
-    <script>
-        const iframe = document.getElementById('welibIframe');
-        iframe.onload = function() {
-            try {
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                const links = iframeDoc.querySelectorAll('a, form, button');
-                
-                links.forEach(link => {
-                    const target = link.getAttribute('target');
-                    // Paksa semua link yang melompat keluar agar tertahan di dalam iframe
-                    if (target === '_top' || target === '_blank' || target === '_parent') {
-                        link.setAttribute('target', '_self');
-                    }
-                });
-            } catch (error) {
-                console.log("CORS aman karena via Vercel, menunggu elemen render...");
-            }
-        };
     </script>
 </body>
 </html>
