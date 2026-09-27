@@ -1,115 +1,33 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TLIBRARY ID</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body, html { margin: 0; padding: 0; overflow: hidden; height: 100%; width: 100%; }
+        /* Menghilangkan margin dan padding bawaan agar iframe bisa full screen */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Menyembunyikan scrollbar ganda dari body */
+            background-color: #f4f4f4;
+        }
+        
+        /* Mengatur iframe agar memenuhi seluruh layar */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none; /* Menghilangkan garis tepi iframe */
+            display: block;
+        }
     </style>
 </head>
-<body class="h-screen w-full flex flex-col bg-gray-100">
+<body>
 
-    <header class="h-16 bg-slate-800 text-white flex-none flex items-center justify-between px-4 sm:px-6 shadow-md z-20 relative">
-        <div class="flex items-center gap-2">
-            <span class="text-xl sm:text-2xl">📖</span>
-            <h1 class="text-xl sm:text-2xl font-extrabold tracking-wide">TLIBRARY <span class="text-indigo-400">ID</span></h1>
-        </div>
-        
-        <button id="installBtn" class="hidden bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-1.5 px-4 rounded-full shadow-lg transition-all transform hover:scale-105 text-sm">
-            Instal Aplikasi
-        </button>
-    </header>
+    <!-- Iframe yang mengarah ke website tujuan -->
+    <iframe src="https://id.welib.org" title="TLIBRARY ID" allowfullscreen></iframe>
 
-    <main class="flex-1 relative overflow-hidden bg-white w-full">
-        <!-- 
-          Trik CSS Cropping: 
-          Iframe ditarik ke atas (top: -85px) untuk menyembunyikan header asli.
-          Tinggi ditambah (calc(100% + 85px)) agar bagian bawah tidak terpotong.
-          Catatan: Atribut sandbox DIHAPUS agar semua fungsi internal dan unduhan berfungsi normal.
-        -->
-        <iframe 
-            src="https://id.welib.org" 
-            class="absolute left-0 w-full"
-            style="top: -85px; height: calc(100% + 85px); border: none;"
-            title="TLIBRARY Content"
-            allowfullscreen>
-        </iframe>
-    </main>
-
-    <script>
-        // 1. DYNAMIC WEB APP MANIFEST
-        const iconSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'><rect width='100%' height='100%' fill='#1e293b'/><text x='50%' y='50%' font-size='48' text-anchor='middle' fill='white' dy='.3em' font-family='sans-serif'>TL</text></svg>`;
-        const iconDataUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(iconSvg);
-
-        const manifest = {
-            "name": "TLIBRARY ID",
-            "short_name": "TLibrary",
-            "start_url": window.location.href,
-            "display": "standalone",
-            "background_color": "#ffffff",
-            "theme_color": "#1e293b",
-            "icons": [{
-                "src": iconDataUri,
-                "sizes": "192x192",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            }]
-        };
-
-        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        const manifestUrl = URL.createObjectURL(manifestBlob);
-        const linkManifest = document.createElement('link');
-        linkManifest.rel = 'manifest';
-        linkManifest.href = manifestUrl;
-        document.head.appendChild(linkManifest);
-
-        // 2. DYNAMIC SERVICE WORKER
-        const swCode = `
-            self.addEventListener('install', (e) => self.skipWaiting());
-            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-            self.addEventListener('fetch', (e) => {
-                e.respondWith(fetch(e.request).catch(() => new Response('Offline.')));
-            });
-        `;
-
-        if ('serviceWorker' in navigator) {
-            const swBlob = new Blob([swCode], {type: 'application/javascript'});
-            const swUrl = URL.createObjectURL(swBlob);
-            
-            navigator.serviceWorker.register(swUrl)
-                .then(() => console.log('ServiceWorker registered'))
-                .catch(err => console.log('SW fail:', err));
-        }
-
-        // 3. PWA INSTALL PROMPT LOGIC
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.classList.remove('hidden');
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.classList.add('hidden');
-                }
-                deferredPrompt = null;
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            installBtn.classList.add('hidden');
-            deferredPrompt = null;
-        });
-    </script>
 </body>
 </html>
-```
