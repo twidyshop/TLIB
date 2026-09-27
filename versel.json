@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/proxy-home",
+      "destination": "https://id.welib.org/"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "https://id.welib.org/$1"
+    }
+  ]
+}
