@@ -2,990 +2,953 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b0d12">
-<meta name="description" content="TLIBRARY — Jelajahi jutaan buku dari Open Library.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b10">
 <title>TLIBRARY — Digital Library</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#080a0f;
-  --panel:#10131a;
-  --panel2:#151922;
-  --text:#f5f5f5;
-  --muted:#9299a8;
-  --line:#252a35;
-  --accent:#d9ff63;
-  --accent2:#b9dc42;
+ --bg:#080a0f;
+ --card:#11151d;
+ --card2:#171c25;
+ --text:#f5f7fa;
+ --muted:#9299a8;
+ --line:#252b36;
+ --accent:#d9ff63;
 }
-html{scroll-behavior:smooth}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 button,input{font:inherit}
 button{cursor:pointer}
 a{text-decoration:none;color:inherit}
 
-.header{
-  position:sticky;
-  top:0;
-  z-index:50;
-  backdrop-filter:blur(18px);
-  background:rgba(8,10,15,.86);
-  border-bottom:1px solid rgba(255,255,255,.06);
+header{
+ position:sticky;
+ top:0;
+ z-index:20;
+ background:rgba(8,10,15,.88);
+ backdrop-filter:blur(18px);
+ border-bottom:1px solid rgba(255,255,255,.06);
 }
 .nav{
-  max-width:1280px;
-  margin:auto;
-  height:72px;
-  display:flex;
-  align-items:center;
-  gap:28px;
-  padding:0 24px;
+ max-width:1280px;
+ height:70px;
+ margin:auto;
+ padding:0 22px;
+ display:flex;
+ align-items:center;
+ gap:28px;
 }
 .logo{
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:-1.5px;
-  white-space:nowrap;
+ font-size:23px;
+ font-weight:900;
+ letter-spacing:-1.5px;
 }
-.logo span{color:var(--accent)}
-.navlinks{
-  display:flex;
-  gap:22px;
-  color:#aeb4c0;
-  font-size:14px;
+.logo b{color:var(--accent)}
+.links{
+ display:flex;
+ gap:22px;
+ color:#aeb4c0;
+ font-size:14px;
 }
-.navlinks a:hover{color:#fff}
-.navright{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.iconbtn{
-  width:40px;height:40px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:var(--panel);
-  color:white;
+.links a:hover{color:white}
+.navRight{margin-left:auto}
+.icon{
+ width:40px;
+ height:40px;
+ border:1px solid var(--line);
+ border-radius:11px;
+ background:var(--card);
+ color:white;
 }
 
 .hero{
-  min-height:470px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  overflow:hidden;
-  border-bottom:1px solid var(--line);
+ min-height:480px;
+ display:flex;
+ align-items:center;
+ position:relative;
+ overflow:hidden;
+ border-bottom:1px solid var(--line);
 }
 .hero:before{
-  content:"";
-  position:absolute;
-  width:650px;height:650px;
-  border-radius:50%;
-  right:-180px;top:-220px;
-  background:radial-gradient(circle,rgba(217,255,99,.15),transparent 68%);
-}
-.hero:after{
-  content:"";
-  position:absolute;
-  width:500px;height:500px;
-  border-radius:50%;
-  left:-250px;bottom:-300px;
-  background:radial-gradient(circle,rgba(89,120,255,.12),transparent 70%);
+ content:"";
+ position:absolute;
+ width:700px;
+ height:700px;
+ right:-250px;
+ top:-300px;
+ border-radius:50%;
+ background:radial-gradient(circle,rgba(217,255,99,.16),transparent 68%);
 }
 .heroInner{
-  position:relative;
-  z-index:2;
-  max-width:1280px;
-  width:100%;
-  margin:auto;
-  padding:75px 24px;
+ position:relative;
+ z-index:1;
+ width:100%;
+ max-width:1280px;
+ margin:auto;
+ padding:70px 22px;
 }
 .kicker{
-  color:var(--accent);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:16px;
+ color:var(--accent);
+ font-size:12px;
+ letter-spacing:2px;
+ font-weight:800;
+ margin-bottom:16px;
 }
-.hero h1{
-  max-width:850px;
-  font-size:clamp(42px,7vw,78px);
-  line-height:.95;
-  letter-spacing:-4px;
-  margin-bottom:22px;
+h1{
+ max-width:850px;
+ font-size:clamp(43px,7vw,78px);
+ line-height:.95;
+ letter-spacing:-4px;
+ margin-bottom:22px;
 }
 .hero p{
-  max-width:650px;
-  color:var(--muted);
-  font-size:17px;
-  line-height:1.7;
+ max-width:650px;
+ color:var(--muted);
+ line-height:1.7;
+ font-size:16px;
 }
-.searchbox{
-  margin-top:34px;
-  width:min(720px,100%);
-  display:flex;
-  background:#fff;
-  border-radius:16px;
-  padding:6px;
+.search{
+ width:min(720px,100%);
+ display:flex;
+ padding:6px;
+ margin-top:30px;
+ background:white;
+ border-radius:15px;
 }
-.searchbox input{
-  flex:1;
-  min-width:0;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:#111;
-  padding:15px 16px;
-  font-size:15px;
+.search input{
+ flex:1;
+ min-width:0;
+ border:0;
+ outline:0;
+ padding:14px 15px;
+ color:#111;
+ background:transparent;
 }
-.searchbox button{
-  border:0;
-  border-radius:12px;
-  padding:0 23px;
-  background:#111;
-  color:#fff;
-  font-weight:700;
+.search button{
+ border:0;
+ background:#101010;
+ color:white;
+ border-radius:11px;
+ padding:0 23px;
+ font-weight:800;
 }
 
 .container{
-  max-width:1280px;
-  margin:auto;
-  padding:52px 24px;
+ max-width:1280px;
+ margin:auto;
+ padding:48px 22px;
 }
-.sectionHead{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:25px;
+.head{
+ display:flex;
+ justify-content:space-between;
+ align-items:end;
+ margin-bottom:23px;
 }
-.sectionHead h2{
-  font-size:27px;
-  letter-spacing:-1px;
+.head h2{
+ font-size:27px;
+ letter-spacing:-1px;
 }
-.sectionHead p{color:var(--muted);font-size:13px;margin-top:5px}
-.textbtn{
-  background:none;
-  border:0;
-  color:var(--accent);
-  font-weight:700;
-  font-size:13px;
+.head p{
+ color:var(--muted);
+ font-size:13px;
+ margin-top:5px;
 }
-
 .chips{
-  display:flex;
-  gap:9px;
-  overflow-x:auto;
-  padding-bottom:5px;
-  scrollbar-width:none;
-  margin-bottom:35px;
+ display:flex;
+ gap:9px;
+ overflow:auto;
+ scrollbar-width:none;
+ margin-bottom:38px;
 }
 .chips::-webkit-scrollbar{display:none}
 .chip{
-  white-space:nowrap;
-  padding:10px 15px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  color:#aeb4c0;
-  background:var(--panel);
-  font-size:13px;
+ white-space:nowrap;
+ border:1px solid var(--line);
+ background:var(--card);
+ color:#aeb4c0;
+ padding:10px 15px;
+ border-radius:999px;
+ font-size:13px;
 }
-.chip:hover,.chip.active{
-  color:#10120b;
-  background:var(--accent);
-  border-color:var(--accent);
+.chip.active,.chip:hover{
+ background:var(--accent);
+ color:#10130c;
+ border-color:var(--accent);
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:22px;
+ display:grid;
+ grid-template-columns:repeat(6,minmax(0,1fr));
+ gap:23px;
 }
-.book{
-  min-width:0;
-  cursor:pointer;
-}
+.book{cursor:pointer;min-width:0}
 .cover{
-  position:relative;
-  aspect-ratio:2/3;
-  overflow:hidden;
-  border-radius:11px;
-  background:#171b24;
-  border:1px solid rgba(255,255,255,.07);
-  margin-bottom:12px;
+ aspect-ratio:2/3;
+ overflow:hidden;
+ border-radius:10px;
+ background:#171b23;
+ border:1px solid rgba(255,255,255,.07);
+ margin-bottom:11px;
+ position:relative;
 }
 .cover img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-  transition:transform .3s ease;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ display:block;
+ transition:.3s;
 }
-.book:hover .cover img{transform:scale(1.035)}
-.coverFallback{
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:18px;
-  background:
-    radial-gradient(circle at 20% 20%,rgba(217,255,99,.16),transparent 35%),
-    linear-gradient(145deg,#1c2230,#0d1017);
+.book:hover img{transform:scale(1.035)}
+.fallback{
+ height:100%;
+ width:100%;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ padding:18px;
+ background:
+ radial-gradient(circle at 20% 20%,rgba(217,255,99,.16),transparent 35%),
+ linear-gradient(145deg,#1d2330,#0d1016);
 }
-.coverFallback strong{
-  font-size:18px;
-  line-height:1.1;
-  text-transform:uppercase;
+.fallback strong{
+ font-size:17px;
+ line-height:1.1;
+ text-transform:uppercase;
 }
-.coverFallback small{
-  color:#9299a8;
-  margin-top:12px;
+.fallback span{
+ margin-top:12px;
+ color:#9299a8;
+ font-size:11px;
 }
-.badge{
-  position:absolute;
-  top:9px;
-  left:9px;
-  padding:5px 8px;
-  border-radius:6px;
-  background:rgba(0,0,0,.7);
-  font-size:10px;
-  font-weight:800;
+.year{
+ position:absolute;
+ top:8px;
+ left:8px;
+ background:rgba(0,0,0,.72);
+ border-radius:6px;
+ padding:4px 7px;
+ font-size:10px;
+ font-weight:800;
 }
-.bookTitle{
-  font-size:14px;
-  line-height:1.35;
-  font-weight:700;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
+.title{
+ font-size:14px;
+ line-height:1.35;
+ font-weight:750;
+ display:-webkit-box;
+ -webkit-line-clamp:2;
+ -webkit-box-orient:vertical;
+ overflow:hidden;
 }
 .author{
-  margin-top:6px;
-  color:var(--muted);
-  font-size:12px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+ color:var(--muted);
+ font-size:12px;
+ margin-top:5px;
+ overflow:hidden;
+ white-space:nowrap;
+ text-overflow:ellipsis;
 }
 
 .status{
-  min-height:240px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  color:var(--muted);
-  text-align:center;
+ min-height:220px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ color:var(--muted);
 }
-.loader{
-  width:30px;height:30px;
-  border:3px solid #272d38;
-  border-top-color:var(--accent);
-  border-radius:50%;
-  animation:spin .7s linear infinite;
-  margin:auto auto 12px;
+.spinner{
+ width:30px;
+ height:30px;
+ border:3px solid #292f3a;
+ border-top-color:var(--accent);
+ border-radius:50%;
+ animation:spin .7s linear infinite;
+ margin:auto auto 12px;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.pagination{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  margin-top:40px;
+.pages{
+ display:flex;
+ justify-content:center;
+ gap:7px;
+ margin-top:35px;
 }
-.pagebtn{
-  min-width:42px;height:42px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:var(--panel);
-  color:white;
+.page{
+ min-width:42px;
+ height:42px;
+ border:1px solid var(--line);
+ background:var(--card);
+ color:white;
+ border-radius:9px;
 }
-.pagebtn.active{
-  background:var(--accent);
-  color:#111;
-  border-color:var(--accent);
-  font-weight:800;
+.page.active{
+ background:var(--accent);
+ color:#111;
+ border-color:var(--accent);
+ font-weight:800;
 }
+.page:disabled{opacity:.4;cursor:not-allowed}
 
-.footer{
-  border-top:1px solid var(--line);
-  padding:45px 24px;
-  color:var(--muted);
-  font-size:12px;
+footer{
+ border-top:1px solid var(--line);
+ padding:40px 22px;
+ color:var(--muted);
+ font-size:12px;
 }
 .footerInner{
-  max-width:1280px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
+ max-width:1280px;
+ margin:auto;
+ display:flex;
+ justify-content:space-between;
 }
-.footer a{color:#d9ff63}
+footer a{color:var(--accent)}
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(10px);
+ position:fixed;
+ inset:0;
+ z-index:100;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ background:rgba(0,0,0,.78);
+ backdrop-filter:blur(10px);
 }
 .modal.show{display:flex}
 .modalBox{
-  width:min(900px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#10131a;
-  border:1px solid var(--line);
-  border-radius:20px;
-  position:relative;
+ width:min(880px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#10141b;
+ border:1px solid var(--line);
+ border-radius:20px;
+ position:relative;
 }
 .close{
-  position:absolute;
-  top:15px;
-  right:15px;
-  z-index:5;
-  width:40px;height:40px;
-  border-radius:50%;
-  border:1px solid var(--line);
-  background:rgba(0,0,0,.7);
-  color:#fff;
+ position:absolute;
+ right:14px;
+ top:14px;
+ z-index:3;
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ border:1px solid var(--line);
+ background:#080a0e;
+ color:white;
+ font-size:22px;
 }
 .detail{
-  display:grid;
-  grid-template-columns:260px 1fr;
-  gap:30px;
-  padding:32px;
+ display:grid;
+ grid-template-columns:240px 1fr;
+ gap:30px;
+ padding:30px;
 }
 .detailCover{
-  aspect-ratio:2/3;
-  border-radius:12px;
-  overflow:hidden;
-  background:#171b24;
+ aspect-ratio:2/3;
+ border-radius:11px;
+ overflow:hidden;
+ background:#171b23;
 }
 .detailCover img{
-  width:100%;height:100%;object-fit:cover;
+ width:100%;
+ height:100%;
+ object-fit:cover;
 }
 .detail h2{
-  font-size:32px;
-  line-height:1.08;
-  letter-spacing:-1px;
-  padding-right:35px;
+ font-size:31px;
+ line-height:1.08;
+ letter-spacing:-1px;
+ padding-right:40px;
 }
 .detailAuthor{
-  color:var(--accent);
-  margin:12px 0 22px;
+ color:var(--accent);
+ margin:10px 0 20px;
 }
 .meta{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin:20px 0;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
 }
-.metaItem{
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:12px;
+.meta div{
+ border:1px solid var(--line);
+ border-radius:9px;
+ padding:11px;
 }
-.metaItem span{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  text-transform:uppercase;
-  margin-bottom:4px;
+.meta small{
+ display:block;
+ color:var(--muted);
+ text-transform:uppercase;
+ font-size:9px;
+ margin-bottom:4px;
 }
-.metaItem strong{font-size:13px}
+.meta strong{font-size:12px}
 .subjects{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-top:12px;
+ display:flex;
+ flex-wrap:wrap;
+ gap:6px;
+ margin-top:18px;
 }
 .subject{
-  background:#191e28;
-  border:1px solid var(--line);
-  padding:6px 9px;
-  border-radius:7px;
-  color:#aeb4c0;
-  font-size:11px;
+ font-size:10px;
+ color:#adb4c1;
+ background:#191e27;
+ border:1px solid var(--line);
+ border-radius:7px;
+ padding:6px 8px;
 }
-.detailActions{
-  display:flex;
-  gap:9px;
-  margin-top:25px;
+.actions{
+ display:flex;
+ gap:8px;
+ margin-top:24px;
 }
 .action{
-  border:0;
-  border-radius:10px;
-  padding:12px 16px;
-  font-weight:800;
-  background:var(--accent);
-  color:#10120b;
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ padding:12px 15px;
+ border-radius:10px;
+ background:var(--accent);
+ color:#10120b;
+ font-size:12px;
+ font-weight:800;
+ border:0;
 }
 .action.secondary{
-  background:#1b2029;
-  color:#fff;
-  border:1px solid var(--line);
+ background:#1b2029;
+ color:white;
+ border:1px solid var(--line);
 }
-
-.mobileMenu{display:none}
 
 @media(max-width:1050px){
-  .grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .grid{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 @media(max-width:800px){
-  .nav{height:64px;padding:0 16px}
-  .navlinks{display:none}
-  .mobileMenu{display:block}
-  .hero{min-height:500px}
-  .heroInner{padding:65px 18px}
-  .hero h1{font-size:48px;letter-spacing:-3px}
-  .hero p{font-size:15px}
-  .container{padding:40px 16px}
-  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px 12px}
-  .detail{grid-template-columns:130px 1fr;gap:18px;padding:22px}
-  .detail h2{font-size:22px}
-  .meta{grid-template-columns:1fr}
+ .nav{padding:0 16px}
+ .links{display:none}
+ .heroInner{padding:65px 17px}
+ .hero h1{font-size:47px;letter-spacing:-3px}
+ .container{padding:40px 16px}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 12px}
+ .detail{grid-template-columns:135px 1fr;padding:22px;gap:18px}
+ .detail h2{font-size:22px}
 }
 @media(max-width:500px){
-  .hero h1{font-size:42px}
-  .searchbox button{padding:0 16px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 13px}
-  .sectionHead h2{font-size:23px}
-  .detail{display:block}
-  .detailCover{
-    width:150px;
-    margin:0 auto 25px;
-  }
-  .detail h2{padding-right:0}
-  .footerInner{display:block}
+ .hero h1{font-size:41px}
+ .search button{padding:0 17px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .detail{display:block}
+ .detailCover{
+  width:155px;
+  margin:0 auto 24px;
+ }
+ .detail h2{padding-right:0}
+ .meta{grid-template-columns:1fr}
+ .footerInner{display:block}
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <nav class="nav">
-    <a class="logo" href="#" onclick="home();return false;">TLI<span>B</span>RARY</a>
+<header>
+<nav class="nav">
+ <a href="#" class="logo">TLI<b>B</b>RARY</a>
 
-    <div class="navlinks">
-      <a href="#books">Jelajahi</a>
-      <a href="#categories">Kategori</a>
-      <a href="#popular">Populer</a>
-    </div>
+ <div class="links">
+  <a href="#books">Jelajahi</a>
+  <a href="#categories">Kategori</a>
+ </div>
 
-    <div class="navright">
-      <button class="iconbtn" onclick="focusSearch()" aria-label="Search">⌕</button>
-      <button class="iconbtn mobileMenu" onclick="focusSearch()" aria-label="Menu">☰</button>
-    </div>
-  </nav>
+ <div class="navRight">
+  <button class="icon" onclick="document.getElementById('q').focus()">⌕</button>
+ </div>
+</nav>
 </header>
 
-<main>
-
 <section class="hero">
-  <div class="heroInner">
-    <div class="kicker">Digital Book Library</div>
-    <h1>Temukan buku yang ingin kamu baca.</h1>
-    <p>
-      Jelajahi jutaan katalog buku dari Open Library.
-      Cari berdasarkan judul, penulis, ISBN, subjek, atau kata kunci.
-    </p>
+ <div class="heroInner">
+  <div class="kicker">DIGITAL BOOK LIBRARY</div>
 
-    <form class="searchbox" onsubmit="searchBooks(event)">
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Cari judul buku, penulis, ISBN..."
-        autocomplete="off"
-      >
-      <button type="submit">Cari</button>
-    </form>
-  </div>
+  <h1>Temukan buku yang ingin kamu baca.</h1>
+
+  <p>
+   Jelajahi katalog buku Open Library berdasarkan judul,
+   penulis, ISBN, maupun kategori.
+  </p>
+
+  <form class="search" onsubmit="doSearch(event)">
+   <input id="q" type="search" placeholder="Cari judul, penulis, ISBN..." autocomplete="off">
+   <button>Cari</button>
+  </form>
+ </div>
 </section>
 
 <section class="container" id="categories">
-  <div class="sectionHead">
-    <div>
-      <h2>Jelajahi kategori</h2>
-      <p>Temukan buku berdasarkan topik.</p>
-    </div>
+ <div class="head">
+  <div>
+   <h2>Jelajahi kategori</h2>
+   <p>Pilih topik yang ingin kamu cari.</p>
   </div>
+ </div>
 
-  <div class="chips">
-    <button class="chip active" onclick="subjectSearch(this,'')">Semua</button>
-    <button class="chip" onclick="subjectSearch(this,'fiction')">Fiction</button>
-    <button class="chip" onclick="subjectSearch(this,'history')">History</button>
-    <button class="chip" onclick="subjectSearch(this,'science')">Science</button>
-    <button class="chip" onclick="subjectSearch(this,'business')">Business</button>
-    <button class="chip" onclick="subjectSearch(this,'psychology')">Psychology</button>
-    <button class="chip" onclick="subjectSearch(this,'religion')">Religion</button>
-    <button class="chip" onclick="subjectSearch(this,'self-help')">Self Help</button>
-    <button class="chip" onclick="subjectSearch(this,'technology')">Technology</button>
-    <button class="chip" onclick="subjectSearch(this,'romance')">Romance</button>
-  </div>
+ <div class="chips">
+  <button class="chip active" onclick="category(this,'')">Semua</button>
+  <button class="chip" onclick="category(this,'fiction')">Fiction</button>
+  <button class="chip" onclick="category(this,'history')">History</button>
+  <button class="chip" onclick="category(this,'science')">Science</button>
+  <button class="chip" onclick="category(this,'business')">Business</button>
+  <button class="chip" onclick="category(this,'psychology')">Psychology</button>
+  <button class="chip" onclick="category(this,'religion')">Religion</button>
+  <button class="chip" onclick="category(this,'technology')">Technology</button>
+  <button class="chip" onclick="category(this,'romance')">Romance</button>
+ </div>
 </section>
 
 <section class="container" id="books">
-  <div class="sectionHead">
-    <div>
-      <h2 id="sectionTitle">Buku pilihan</h2>
-      <p id="resultInfo">Memuat katalog...</p>
-    </div>
-    <button class="textbtn" onclick="randomBooks()">Acak buku ↗</button>
+ <div class="head">
+  <div>
+   <h2 id="heading">Buku pilihan</h2>
+   <p id="info">Menghubungkan ke Open Library...</p>
   </div>
+ </div>
 
-  <div id="bookGrid" class="grid"></div>
-  <div id="status" class="status"></div>
-  <div id="pagination" class="pagination"></div>
+ <div id="grid" class="grid"></div>
+ <div id="status" class="status"></div>
+ <div id="pages" class="pages"></div>
 </section>
 
-</main>
-
-<footer class="footer">
-  <div class="footerInner">
-    <div>© <span id="year"></span> TLIBRARY</div>
-    <div>
-      Book metadata & covers powered by
-      <a href="https://openlibrary.org/" target="_blank" rel="noopener">Open Library</a>
-    </div>
+<footer>
+ <div class="footerInner">
+  <div>© <span id="year"></span> TLIBRARY</div>
+  <div>
+   Metadata & cover:
+   <a href="https://openlibrary.org/" target="_blank">Open Library</a>
   </div>
+ </div>
 </footer>
 
-<div class="modal" id="modal" onclick="closeOutside(event)">
-  <div class="modalBox">
-    <button class="close" onclick="closeModal()">×</button>
-    <div id="detailContent"></div>
-  </div>
+<div id="modal" class="modal" onclick="outside(event)">
+ <div class="modalBox">
+  <button class="close" onclick="closeModal()">×</button>
+  <div id="detail"></div>
+ </div>
 </div>
 
 <script>
-const API = "https://openlibrary.org/search.json";
+const API="https://openlibrary.org/search.json";
 
-let currentQuery = "";
-let currentPage = 1;
-let totalPages = 1;
-let currentDocs = [];
+let query="";
+let page=1;
+let totalPages=1;
+let books=[];
 
-const searchInput = document.getElementById("searchInput");
-const grid = document.getElementById("bookGrid");
-const statusBox = document.getElementById("status");
-const pagination = document.getElementById("pagination");
-const resultInfo = document.getElementById("resultInfo");
-const sectionTitle = document.getElementById("sectionTitle");
+const grid=document.getElementById("grid");
+const status=document.getElementById("status");
+const pages=document.getElementById("pages");
+const info=document.getElementById("info");
+const heading=document.getElementById("heading");
 
-document.getElementById("year").textContent = new Date().getFullYear();
+document.getElementById("year").textContent=new Date().getFullYear();
 
-function focusSearch(){
-  searchInput.focus();
-  window.scrollTo({top:0,behavior:"smooth"});
+function esc(v){
+ return String(v??"")
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
 }
 
-function home(){
-  currentQuery = "";
-  currentPage = 1;
-  searchInput.value = "";
-  sectionTitle.textContent = "Buku pilihan";
-  loadBooks("");
+function fallback(book){
+ let title=esc(book.title||"UNTITLED");
+ let author=esc(book.author_name?.[0]||"Unknown");
+
+ return `
+ <div class="fallback">
+  <strong>${title}</strong>
+  <span>${author}</span>
+ </div>`;
 }
 
-function escapeHTML(value){
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+function cover(book,size="M"){
+ if(book.cover_i)
+  return `https://covers.openlibrary.org/b/id/${book.cover_i}-${size}.jpg`;
+
+ if(book.isbn?.[0])
+  return `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-${size}.jpg`;
+
+ return null;
 }
 
-function truncate(text,max=120){
-  text = text || "";
-  return text.length > max ? text.slice(0,max-1)+"…" : text;
+function card(book,index){
+ let title=book.title||"Untitled";
+ let author=book.author_name?.slice(0,2).join(", ")||"Unknown author";
+ let c=cover(book);
+
+ let image=c
+ ? `<img src="${c}" loading="lazy"
+      alt="${esc(title)}"
+      onerror="this.outerHTML=fallbackHTML(${index})">`
+ : fallback(book);
+
+ return `
+ <article class="book" onclick="openBook(${index})">
+  <div class="cover">
+   ${image}
+   ${book.first_publish_year
+    ? `<span class="year">${esc(book.first_publish_year)}</span>`
+    : ""}
+  </div>
+
+  <div class="title">${esc(title)}</div>
+  <div class="author">${esc(author)}</div>
+ </article>`;
 }
 
-function coverURL(doc,size="M"){
-  if(doc.cover_i){
-    return `https://covers.openlibrary.org/b/id/${doc.cover_i}-${size}.jpg`;
+function fallbackHTML(i){
+ return JSON.stringify(fallback(books[i]));
+}
+
+async function load(q="",p=1){
+
+ query=q;
+ page=p;
+
+ grid.innerHTML="";
+ pages.innerHTML="";
+
+ status.innerHTML=`
+  <div>
+   <div class="spinner"></div>
+   <div>Memuat katalog...</div>
+  </div>`;
+
+ /*
+  IMPORTANT:
+  Jangan gunakan fields=* atau availability di request utama.
+  Open Library merekomendasikan field spesifik.
+ */
+
+ const fields=[
+  "key",
+  "title",
+  "author_key",
+  "author_name",
+  "cover_i",
+  "isbn",
+  "first_publish_year",
+  "publisher",
+  "language",
+  "number_of_pages_median",
+  "subject",
+  "edition_count"
+ ].join(",");
+
+ let params=new URLSearchParams();
+
+ params.set("q",q||"book");
+ params.set("page",p);
+ params.set("limit","30");
+ params.set("fields",fields);
+
+ if(!q){
+  params.set("sort","random");
+ }
+
+ const url=API+"?"+params.toString();
+
+ try{
+
+  const response=await fetch(url,{
+   method:"GET",
+   headers:{
+    "Accept":"application/json"
+   }
+  });
+
+  if(!response.ok){
+   throw new Error("HTTP "+response.status);
   }
 
-  if(doc.isbn && doc.isbn[0]){
-    return `https://covers.openlibrary.org/b/isbn/${doc.isbn[0]}-${size}.jpg`;
-  }
+  const data=await response.json();
 
-  return null;
-}
+  books=data.docs||[];
 
-function fallbackCover(doc){
-  const title = escapeHTML(truncate(doc.title || "Untitled",45));
-  const author = escapeHTML(
-    doc.author_name && doc.author_name[0]
-      ? truncate(doc.author_name[0],35)
-      : "Unknown author"
+  const total=Number(data.numFound||0);
+
+  totalPages=Math.max(
+   1,
+   Math.min(1000,Math.ceil(total/30))
   );
 
-  return `
-    <div class="coverFallback">
-      <strong>${title}</strong>
-      <small>${author}</small>
+  info.textContent=
+   `${total.toLocaleString("id-ID")} hasil ditemukan`;
+
+  status.innerHTML="";
+
+  if(!books.length){
+
+   status.innerHTML=`
+    <div>
+     <strong>Tidak ada buku.</strong>
+     <br>
+     <span>Coba kata kunci lain.</span>
+    </div>`;
+
+   return;
+  }
+
+  grid.innerHTML=books.map(card).join("");
+
+  renderPages();
+
+ }catch(err){
+
+  console.error("TLIBRARY API ERROR:",err);
+
+  status.innerHTML=`
+   <div style="max-width:500px">
+    <strong style="color:#fff;font-size:16px">
+     Gagal memuat katalog
+    </strong>
+
+    <p style="margin-top:10px;line-height:1.6">
+     API Open Library tidak merespons.
+     Coba refresh halaman beberapa saat lagi.
+    </p>
+
+    <button
+     onclick="load(query,page)"
+     style="
+      margin-top:15px;
+      border:0;
+      background:#d9ff63;
+      color:#111;
+      padding:11px 17px;
+      border-radius:9px;
+      font-weight:800;
+     "
+    >
+     Coba Lagi
+    </button>
+   </div>`;
+
+  info.textContent="Koneksi katalog gagal";
+ }
+}
+
+function doSearch(e){
+
+ e.preventDefault();
+
+ let q=document.getElementById("q").value.trim();
+
+ if(!q){
+  heading.textContent="Buku pilihan";
+  load("",1);
+  return;
+ }
+
+ heading.textContent=`Hasil pencarian: ${q}`;
+
+ load(q,1);
+
+ document.getElementById("books")
+ .scrollIntoView({behavior:"smooth"});
+}
+
+function category(btn,value){
+
+ document.querySelectorAll(".chip")
+ .forEach(x=>x.classList.remove("active"));
+
+ btn.classList.add("active");
+
+ if(!value){
+  heading.textContent="Buku pilihan";
+  load("",1);
+ }else{
+  heading.textContent=`Kategori: ${value}`;
+  load(`subject:${value}`,1);
+ }
+
+ document.getElementById("books")
+ .scrollIntoView({behavior:"smooth"});
+}
+
+function renderPages(){
+
+ pages.innerHTML="";
+
+ if(totalPages<=1)return;
+
+ let prev=document.createElement("button");
+ prev.className="page";
+ prev.textContent="‹";
+ prev.disabled=page===1;
+ prev.onclick=()=>load(query,page-1);
+ pages.appendChild(prev);
+
+ let start=Math.max(1,page-2);
+ let end=Math.min(totalPages,start+4);
+
+ if(end-start<4)
+  start=Math.max(1,end-4);
+
+ for(let i=start;i<=end;i++){
+
+  let b=document.createElement("button");
+
+  b.className="page"+(i===page?" active":"");
+  b.textContent=i;
+  b.onclick=()=>load(query,i);
+
+  pages.appendChild(b);
+ }
+
+ let next=document.createElement("button");
+ next.className="page";
+ next.textContent="›";
+ next.disabled=page===totalPages;
+ next.onclick=()=>load(query,page+1);
+ pages.appendChild(next);
+}
+
+function openBook(i){
+
+ let b=books[i];
+
+ if(!b)return;
+
+ let title=b.title||"Untitled";
+ let author=b.author_name?.join(", ")||"Unknown author";
+ let publisher=b.publisher?.[0]||"—";
+ let year=b.first_publish_year||"—";
+ let isbn=b.isbn?.[0]||"—";
+ let language=b.language?.slice(0,4).join(", ").toUpperCase()||"—";
+ let pagesCount=b.number_of_pages_median||"—";
+
+ let c=cover(b,"L");
+
+ let image=c
+ ? `<img src="${c}" alt="${esc(title)}">`
+ : fallback(b);
+
+ let subjects=(b.subject||[]).slice(0,12);
+
+ let link=b.key
+  ? `https://openlibrary.org${b.key}`
+  : "https://openlibrary.org/";
+
+ document.getElementById("detail").innerHTML=`
+
+ <div class="detail">
+
+  <div class="detailCover">
+   ${image}
+  </div>
+
+  <div>
+
+   <h2>${esc(title)}</h2>
+
+   <div class="detailAuthor">
+    ${esc(author)}
+   </div>
+
+   <div class="meta">
+
+    <div>
+     <small>Tahun</small>
+     <strong>${esc(year)}</strong>
     </div>
-  `;
-}
 
-function renderBook(doc,index){
-  const title = doc.title || "Untitled";
-  const author =
-    doc.author_name && doc.author_name.length
-      ? doc.author_name.slice(0,2).join(", ")
-      : "Unknown author";
-
-  const cover = coverURL(doc,"M");
-
-  const coverHTML = cover
-    ? `<img
-        src="${cover}"
-        alt="${escapeHTML(title)}"
-        loading="lazy"
-        onerror="this.parentElement.innerHTML=fallbackCoverHTML(${index})"
-      >`
-    : fallbackCover(doc);
-
-  return `
-    <article class="book" onclick="openBook(${index})">
-      <div class="cover">
-        ${coverHTML}
-        ${doc.first_publish_year
-          ? `<span class="badge">${escapeHTML(doc.first_publish_year)}</span>`
-          : ""}
-      </div>
-      <div class="bookTitle">${escapeHTML(title)}</div>
-      <div class="author">${escapeHTML(author)}</div>
-    </article>
-  `;
-}
-
-function fallbackCoverHTML(index){
-  const doc = currentDocs[index];
-  return fallbackCover(doc).replace(/`/g,"\\`");
-}
-
-async function loadBooks(query="",page=1){
-  currentQuery = query;
-  currentPage = page;
-
-  grid.innerHTML = "";
-  pagination.innerHTML = "";
-  statusBox.innerHTML = `<div><div class="loader"></div><div>Memuat buku...</div></div>`;
-
-  let url;
-
-  if(query){
-    url = `${API}?q=${encodeURIComponent(query)}&page=${page}&limit=30&fields=*,availability`;
-  }else{
-    url = `${API}?q=${encodeURIComponent("book")}&page=${page}&limit=30&sort=editions&fields=*,availability`;
-  }
-
-  try{
-    const response = await fetch(url);
-
-    if(!response.ok){
-      throw new Error("API request failed");
-    }
-
-    const data = await response.json();
-
-    currentDocs = data.docs || [];
-
-    const total = Number(data.numFound || 0);
-    totalPages = Math.max(1,Math.min(1000,Math.ceil(total/30)));
-
-    resultInfo.textContent =
-      `${total.toLocaleString("id-ID")} hasil ditemukan`;
-
-    if(!currentDocs.length){
-      statusBox.innerHTML = `
-        <div>
-          <strong>Tidak ada buku ditemukan.</strong>
-          <br>
-          <span>Coba kata kunci lain.</span>
-        </div>
-      `;
-      return;
-    }
-
-    statusBox.innerHTML = "";
-    grid.innerHTML = currentDocs.map(renderBook).join("");
-    renderPagination();
-
-  }catch(error){
-    console.error(error);
-
-    statusBox.innerHTML = `
-      <div>
-        <strong>Gagal memuat katalog.</strong>
-        <br>
-        <span>Coba refresh atau cari lagi.</span>
-      </div>
-    `;
-  }
-}
-
-function searchBooks(event){
-  event.preventDefault();
-
-  const q = searchInput.value.trim();
-
-  if(!q){
-    home();
-    return;
-  }
-
-  sectionTitle.textContent = `Hasil untuk "${q}"`;
-  loadBooks(q,1);
-
-  document.getElementById("books").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-function subjectSearch(button,subject){
-  document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));
-  button.classList.add("active");
-
-  if(!subject){
-    sectionTitle.textContent = "Buku pilihan";
-    loadBooks("",1);
-  }else{
-    sectionTitle.textContent = `Kategori: ${subject}`;
-    loadBooks(`subject:${subject}`,1);
-  }
-
-  document.getElementById("books").scrollIntoView({
-    behavior:"smooth"
-  });
-}
-
-function randomBooks(){
-  const subjects = [
-    "fiction",
-    "history",
-    "science",
-    "psychology",
-    "business",
-    "technology",
-    "romance",
-    "philosophy"
-  ];
-
-  const subject = subjects[Math.floor(Math.random()*subjects.length)];
-
-  sectionTitle.textContent = `Pilihan acak · ${subject}`;
-  loadBooks(`subject:${subject}`,1);
-
-  document.getElementById("books").scrollIntoView({
-    behavior:"smooth"
-  });
-}
-
-function renderPagination(){
-  pagination.innerHTML = "";
-
-  if(totalPages <= 1) return;
-
-  const prev = document.createElement("button");
-  prev.className = "pagebtn";
-  prev.textContent = "‹";
-  prev.disabled = currentPage === 1;
-  prev.onclick = ()=>loadBooks(currentQuery,currentPage-1);
-  pagination.appendChild(prev);
-
-  let start = Math.max(1,currentPage-2);
-  let end = Math.min(totalPages,start+4);
-
-  if(end-start < 4){
-    start = Math.max(1,end-4);
-  }
-
-  for(let i=start;i<=end;i++){
-    const btn = document.createElement("button");
-
-    btn.className = "pagebtn" + (i===currentPage ? " active" : "");
-    btn.textContent = i;
-    btn.onclick = ()=>loadBooks(currentQuery,i);
-
-    pagination.appendChild(btn);
-  }
-
-  const next = document.createElement("button");
-  next.className = "pagebtn";
-  next.textContent = "›";
-  next.disabled = currentPage === totalPages;
-  next.onclick = ()=>loadBooks(currentQuery,currentPage+1);
-  pagination.appendChild(next);
-}
-
-function openBook(index){
-  const doc = currentDocs[index];
-
-  if(!doc) return;
-
-  const title = doc.title || "Untitled";
-
-  const authors =
-    doc.author_name && doc.author_name.length
-      ? doc.author_name.join(", ")
-      : "Unknown author";
-
-  const publisher =
-    doc.publisher && doc.publisher.length
-      ? doc.publisher[0]
-      : "—";
-
-  const year = doc.first_publish_year || "—";
-
-  const isbn =
-    doc.isbn && doc.isbn.length
-      ? doc.isbn[0]
-      : "—";
-
-  const language =
-    doc.language && doc.language.length
-      ? doc.language.slice(0,4).join(", ").toUpperCase()
-      : "—";
-
-  const pages =
-    doc.number_of_pages_median
-      ? doc.number_of_pages_median
-      : "—";
-
-  const subjects =
-    doc.subject && doc.subject.length
-      ? doc.subject.slice(0,10)
-      : [];
-
-  const cover = coverURL(doc,"L");
-
-  const coverHTML = cover
-    ? `<img src="${cover}" alt="${escapeHTML(title)}" onerror="this.style.display='none'">`
-    : fallbackCover(doc);
-
-  const olid =
-    doc.key
-      ? `https://openlibrary.org${doc.key}`
-      : "https://openlibrary.org/";
-
-  document.getElementById("detailContent").innerHTML = `
-    <div class="detail">
-      <div class="detailCover">
-        ${coverHTML}
-      </div>
-
-      <div>
-        <h2>${escapeHTML(title)}</h2>
-
-        <div class="detailAuthor">
-          ${escapeHTML(authors)}
-        </div>
-
-        <div class="meta">
-          <div class="metaItem">
-            <span>Tahun</span>
-            <strong>${escapeHTML(year)}</strong>
-          </div>
-
-          <div class="metaItem">
-            <span>Penerbit</span>
-            <strong>${escapeHTML(publisher)}</strong>
-          </div>
-
-          <div class="metaItem">
-            <span>ISBN</span>
-            <strong>${escapeHTML(isbn)}</strong>
-          </div>
-
-          <div class="metaItem">
-            <span>Bahasa</span>
-            <strong>${escapeHTML(language)}</strong>
-          </div>
-
-          <div class="metaItem">
-            <span>Halaman</span>
-            <strong>${escapeHTML(pages)}</strong>
-          </div>
-        </div>
-
-        ${
-          subjects.length
-          ? `
-            <div>
-              <div style="font-size:12px;color:#9299a8;margin-bottom:8px">
-                SUBJECTS
-              </div>
-              <div class="subjects">
-                ${subjects.map(s=>`
-                  <span class="subject">${escapeHTML(s)}</span>
-                `).join("")}
-              </div>
-            </div>
-          `
-          : ""
-        }
-
-        <div class="detailActions">
-          <a
-            class="action"
-            href="${olid}"
-            target="_blank"
-            rel="noopener"
-          >
-            Lihat di Open Library ↗
-          </a>
-
-          <button class="action secondary" onclick="closeModal()">
-            Tutup
-          </button>
-        </div>
-      </div>
+    <div>
+     <small>Penerbit</small>
+     <strong>${esc(publisher)}</strong>
     </div>
-  `;
 
-  document.getElementById("modal").classList.add("show");
-  document.body.style.overflow = "hidden";
+    <div>
+     <small>ISBN</small>
+     <strong>${esc(isbn)}</strong>
+    </div>
+
+    <div>
+     <small>Bahasa</small>
+     <strong>${esc(language)}</strong>
+    </div>
+
+    <div>
+     <small>Halaman</small>
+     <strong>${esc(pagesCount)}</strong>
+    </div>
+
+    <div>
+     <small>Edisi</small>
+     <strong>${esc(b.edition_count||"—")}</strong>
+    </div>
+
+   </div>
+
+   ${
+    subjects.length
+    ? `<div class="subjects">
+       ${subjects.map(x=>`
+        <span class="subject">${esc(x)}</span>
+       `).join("")}
+      </div>`
+    : ""
+   }
+
+   <div class="actions">
+
+    <a
+     class="action"
+     href="${link}"
+     target="_blank"
+     rel="noopener"
+    >
+     Buka Open Library ↗
+    </a>
+
+    <button
+     class="action secondary"
+     onclick="closeModal()"
+    >
+     Tutup
+    </button>
+
+   </div>
+
+  </div>
+ </div>`;
+
+ document.getElementById("modal").classList.add("show");
+ document.body.style.overflow="hidden";
 }
 
 function closeModal(){
-  document.getElementById("modal").classList.remove("show");
-  document.body.style.overflow = "";
+ document.getElementById("modal").classList.remove("show");
+ document.body.style.overflow="";
 }
 
-function closeOutside(event){
-  if(event.target.id === "modal"){
-    closeModal();
-  }
+function outside(e){
+ if(e.target.id==="modal")
+  closeModal();
 }
 
-document.addEventListener("keydown",event=>{
-  if(event.key === "Escape"){
-    closeModal();
-  }
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape")closeModal();
 });
 
-loadBooks("",1);
+load("",1);
 </script>
 
 </body>
