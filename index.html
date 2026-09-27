@@ -17,7 +17,6 @@
 </head>
 <body class="flex flex-col h-screen">
 
-    <!-- Header Kustom -->
     <header class="bg-[#1e293b] text-white flex justify-between items-center px-4 py-3 shadow-md z-10 shrink-0 h-[60px]">
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400">
@@ -30,12 +29,7 @@
         </button>
     </header>
 
-    <!-- Kontainer Iframe -->
     <main class="flex-1 w-full relative overflow-hidden bg-white">
-        <!-- 
-          src diubah ke "/proxy-home" agar melewati vercel.json.
-          Atribut sandbox dihilangkan agar skrip internal web asli tetap jalan.
-        -->
         <iframe 
             id="welibIframe"
             src="/proxy-home" 
@@ -45,7 +39,6 @@
         </iframe>
     </main>
 
-    <!-- PWA & Install Button Script -->
     <script>
         const manifestData = {
             name: "TLIBRARY ID",
@@ -60,70 +53,34 @@
                 type: "image/svg+xml"
             }]
         };
-        const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-        const manifestUrl = URL.createObjectURL(manifestBlob);
-        const link = document.createElement('link');
-        link.rel = 'manifest';
-        link.href = manifestUrl;
-        document.head.appendChild(link);
-
-        const swCode = `
-            self.addEventListener('install', (e) => e.waitUntil(self.skipWaiting()));
-            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-            self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
-        `;
-        const swBlob = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
+        const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify(manifestData)], { type: 'application/json' }));
+        const link = document.createElement('link'); link.rel = 'manifest'; link.href = manifestUrl; document.head.appendChild(link);
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(swUrl).catch(console.error);
+            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install', (e) => e.waitUntil(self.skipWaiting())); self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim())); self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));`], { type: 'application/javascript' }))).catch(console.error);
         }
 
-        let deferredPrompt;
-        const installBtn = document.getElementById('installBtn');
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.classList.remove('hidden');
-        });
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') installBtn.classList.add('hidden');
-                deferredPrompt = null;
-            }
-        });
+        let deferredPrompt; const installBtn = document.getElementById('installBtn');
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.classList.remove('hidden'); });
+        installBtn.addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') installBtn.classList.add('hidden'); deferredPrompt = null; } });
     </script>
 
-    <!-- SCRIPT PENJINAK IFRAME (Bisa jalan karena Same-Origin via Vercel) -->
     <script>
         const iframe = document.getElementById('welibIframe');
-
-        // Fungsi ini akan berjalan setiap kali iframe memuat halaman baru
         iframe.onload = function() {
             try {
                 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                // Cari seluruh link (tautan) dan tombol di dalam website
-                const links = iframeDoc.querySelectorAll('a, form');
+                const links = iframeDoc.querySelectorAll('a, form, button');
                 
                 links.forEach(link => {
-                    // 1. Hapus paksaan buka di tab baru atau paksaan keluar layar utama
                     const target = link.getAttribute('target');
-                    if (target === '_top' || target === '_blank') {
+                    // Paksa semua link yang melompat keluar agar tertahan di dalam iframe
+                    if (target === '_top' || target === '_blank' || target === '_parent') {
                         link.setAttribute('target', '_self');
                     }
-                    
-                    // 2. Jika ada link yang masih memakai domain aslinya secara absolut, 
-                    // ubah menjadi relatif agar tetap masuk ke proxy Vercel kita
-                    if (link.href && link.href.includes('id.welib.org')) {
-                        link.href = link.href.replace('https://id.welib.org', '');
-                    }
                 });
-                
             } catch (error) {
-                console.log("Menunggu render halaman...");
+                console.log("CORS aman karena via Vercel, menunggu elemen render...");
             }
         };
     </script>
